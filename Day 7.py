@@ -44,6 +44,45 @@ def valid_calibration_eqn(
     return total_calibration_result
 
 
+# PART 2
+def valid_calibration_eqn_with_concat(
+    data={
+        190: [10, 19],
+        3267: [81, 40, 27],
+        83: [17, 5],
+        156: [15, 6],
+        7290: [6, 8, 6, 15],
+        161011: [16, 10, 13],
+        192: [17, 8, 14],
+        21037: [9, 7, 18, 13],
+        292: [11, 6, 16, 20],
+    }
+):
+    def can_evaluate(numbers, target, index, current_value):
+        if index == len(numbers):
+            return current_value == target
+
+        if can_evaluate(
+            numbers, target, index + 1, current_value + numbers[index]
+        ) or can_evaluate(numbers, target, index + 1, current_value * numbers[index]):
+            return True
+
+        concatenated_value = int(str(current_value) + str(numbers[index]))
+        if can_evaluate(numbers, target, index + 1, concatenated_value):
+            return True
+
+        return False
+
+    total_calibration_result = 0
+
+    for target, numbers in data.items():
+        if can_evaluate(numbers, target, 1, numbers[0]):
+            total_calibration_result += target
+
+    return total_calibration_result
+
+
 if __name__ == "__main__":
     required = read_data()
     print("TOTAL CALIBRATION RESULT : ", valid_calibration_eqn(required))
+    print("TOTAL CALIBRATION RESULT : ", valid_calibration_eqn_with_concat(required))
