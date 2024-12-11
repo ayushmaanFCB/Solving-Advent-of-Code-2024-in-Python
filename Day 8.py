@@ -42,7 +42,7 @@ def get_coords(diff, c, op, map, valid=None):
         case "sub":
             next_c = (x - i, y - j)
         case _:
-            print("somethings wrong")
+            pass
 
     if in_map(next_c, map):
         valid.append(next_c)
